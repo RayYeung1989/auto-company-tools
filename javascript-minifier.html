@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Minifier - Free Online JS Compressor</title>
+    <meta name="description" content="Free online JavaScript minifier. Compress and minify JS code to reduce file size. 100% client-side, no server upload.">
+    <meta name="keywords" content="javascript minifier, js compressor, minify javascript, online js tools">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tagline {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .input-group textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 14px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            min-height: 200px;
+            resize: vertical;
+        }
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .result-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        .result-card textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            min-height: 200px;
+            resize: vertical;
+        }
+        .stats {
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        .stat-label {
+            color: #a0aec0;
+            font-size: 0.85rem;
+        }
+        .stat-value {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .success {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .warning {
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JavaScript Minifier</h1>
+            <p class="tagline">Compress JavaScript code to reduce file size</p>
+        </header>
+
+        <div class="card">
+            <div class="input-group">
+                <label for="js-input">Paste your JavaScript code here</label>
+                <textarea id="js-input" placeholder="// Enter your JavaScript code here
+function hello() {
+    console.log('Hello, World!');
+}
+
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);">// JavaScript Minifier Example
+function calculateSum(numbers) {
+    let sum = 0;
+
+    for (let i = 0; i < numbers.length; i++) {
+        sum += numbers[i];
+    }
+
+    return sum;
+}
+
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const result = calculateSum(numbers);
+
+console.log("The sum is:", result);
+
+// Arrow function example
+const multiply = (a, b) => {
+    return a * b;
+};</textarea>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn" onclick="minifyJs()">Minify</button>
+                <button class="btn secondary" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div id="result"></div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 16px; color: #e2e8f0;">What does minification do?</h3>
+            <ul style="color: #a0aec0; line-height: 2; padding-left: 20px;">
+                <li>Removes whitespace, comments, and unnecessary newlines</li>
+                <li>Shortens variable names (when using advanced tools)</li>
+                <li>Removes empty statements and redundant code</li>
+                <li>Optimizes string concatenation</li>
+                <li>Reduces overall file size for faster loading</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function minifyJs() {
+            const input = document.getElementById('js-input').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!input.trim()) {
+                resultDiv.innerHTML = '<div class="error">Please enter some JavaScript code</div>';
+                return;
+            }
+
+            try {
+                // Check for basic syntax errors first
+                try {
+                    new Function(input);
+                } catch (e) {
+                    resultDiv.innerHTML = '<div class="warning">Warning: Your code may have syntax errors. Minifying anyway...</div>';
+                }
+
+                let minified = input;
+
+                // Remove single-line comments (not from strings)
+                minified = minified.replace(/(?:^|\n)\s*\/\/.*$/gm, '');
+
+                // Remove multi-line comments
+                minified = minified.replace(/\/\*[\s\S]*?\*\//g, '');
+
+                // Remove newlines and extra whitespace
+                minified = minified.replace(/\n\s*/g, '');
+
+                // Remove spaces around operators
+                minified = minified.replace(/\s*([=+\-*/%<>!&|,;{}[\]()?:])\s*/g, '$1');
+
+                // Remove trailing semicolons before closing braces
+                minified = minified.replace(/;}/g, '}');
+
+                // Remove unnecessary spaces after opening braces and before closing braces
+                minified = minified.replace(/\{\s+/g, '{');
+                minified = minified.replace(/\s+\}/g, '}');
+
+                // Remove unnecessary spaces in arrays
+                minified = minified.replace(/\[\s+/g, '[');
+                minified = minified.replace(/\s+\]/g, ']');
+
+                // Remove unnecessary spaces in function calls
+                minified = minified.replace(/\(\s+/g, '(');
+                minified = minified.replace(/\s+\)/g, ')');
+
+                // Remove empty statements
+                minified = minified.replace(/;;+/g, ';');
+
+                // Trim
+                minified = minified.trim();
+
+                const originalSize = new Blob([input]).size;
+                const newSize = new Blob([minified]).size;
+                const savings = ((1 - newSize / originalSize) * 100).toFixed(1);
+
+                resultDiv.innerHTML = `
+                    <div class="result-card">
+                        <label>Minified JavaScript</label>
+                        <textarea id="output" readonly>${escapeHtml(minified)}</textarea>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-label">Original Size</div>
+                                <div class="stat-value">${originalSize} bytes</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Minified Size</div>
+                                <div class="stat-value">${newSize} bytes</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Savings</div>
+                                <div class="stat-value">${savings}%</div>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="btn" onclick="copyOutput()">Copy to Clipboard</button>
+                            <button class="btn" onclick="downloadOutput()">Download .js</button>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                resultDiv.innerHTML = '<div class="error">Error minifying JavaScript: ' + escapeHtml(e.message) + '</div>';
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('js-input').value = '';
+            document.getElementById('result').innerHTML = '';
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('output');
+            if (output) {
+                output.select();
+                document.execCommand('copy');
+                alert('Copied to clipboard!');
+            }
+        }
+
+        function downloadOutput() {
+            const output = document.getElementById('output');
+            if (output) {
+                const blob = new Blob([output.value], { type: 'application/javascript' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'script.min.js';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

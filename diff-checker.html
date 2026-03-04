@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diff Checker - Free Online Text Comparison Tool</title>
+    <meta name="description" content="Free online diff checker. Compare two texts and see the differences highlighted. Side-by-side comparison. 100% client-side.">
+    <meta name="keywords" content="diff checker, text compare, text difference, online diff tool">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tagline {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .input-group textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            min-height: 200px;
+            resize: vertical;
+        }
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn {
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .result-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        .diff-view {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .diff-line {
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        .diff-added {
+            background: rgba(74, 222, 128, 0.25);
+            color: #4ade80;
+        }
+        .diff-removed {
+            background: rgba(255, 107, 107, 0.25);
+            color: #ff6b6b;
+        }
+        .diff-unchanged {
+            color: #a0aec0;
+        }
+        .stats {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        .stat-label {
+            color: #a0aec0;
+            font-size: 0.85rem;
+        }
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .stat-value.additions {
+            color: #4ade80;
+        }
+        .stat-value.deletions {
+            color: #ff6b6b;
+        }
+        .empty-state {
+            text-align: center;
+            color: #a0aec0;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Diff Checker</h1>
+            <p class="tagline">Compare two texts and see the differences</p>
+        </header>
+
+        <div class="card">
+            <div class="compare-grid">
+                <div class="input-group">
+                    <label for="original">Original Text</label>
+                    <textarea id="original" placeholder="Enter original text here...">function hello() {
+    console.log("Hello, World!");
+    return true;
+}</textarea>
+                </div>
+                <div class="input-group">
+                    <label for="modified">Modified Text</label>
+                    <textarea id="modified" placeholder="Enter modified text here...">function hello() {
+    console.log("Hello, Universe!");
+    return false;
+}</textarea>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn" onclick="compareDiff()">Compare</button>
+                <button class="btn secondary" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function compareDiff() {
+            const original = document.getElementById('original').value;
+            const modified = document.getElementById('modified').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!original.trim() && !modified.trim()) {
+                resultDiv.innerHTML = '<div class="empty-state">Enter text in both fields to compare</div>';
+                return;
+            }
+
+            const originalLines = original.split('\n');
+            const modifiedLines = modified.split('\n');
+
+            // Simple line-by-line diff
+            const diff = computeDiff(originalLines, modifiedLines);
+
+            let html = '<div class="stats">';
+            html += '<div class="stat"><div class="stat-label">Additions</div><div class="stat-value additions">+' + diff.additions + '</div></div>';
+            html += '<div class="stat"><div class="stat-label">Deletions</div><div class="stat-value deletions">-' + diff.deletions + '</div></div>';
+            html += '<div class="stat"><div class="stat-label">Unchanged</div><div class="stat-value">' + diff.unchanged + '</div></div>';
+            html += '</div>';
+
+            html += '<div class="result-card"><div class="diff-view">';
+
+            diff.lines.forEach(line => {
+                if (line.type === 'added') {
+                    html += '<div class="diff-line diff-added">+ ' + escapeHtml(line.text) + '</div>';
+                } else if (line.type === 'removed') {
+                    html += '<div class="diff-line diff-removed">- ' + escapeHtml(line.text) + '</div>';
+                } else {
+                    html += '<div class="diff-line diff-unchanged">  ' + escapeHtml(line.text) + '</div>';
+                }
+            });
+
+            html += '</div></div>';
+
+            resultDiv.innerHTML = html;
+        }
+
+        function computeDiff(originalLines, modifiedLines) {
+            // Simple LCS-based diff algorithm
+            const lcs = longestCommonSubsequence(originalLines, modifiedLines);
+            const result = {
+                lines: [],
+                additions: 0,
+                deletions: 0,
+                unchanged: 0
+            };
+
+            let origIdx = 0;
+            let modIdx = 0;
+            let lcsIdx = 0;
+
+            while (origIdx < originalLines.length || modIdx < modifiedLines.length) {
+                if (lcsIdx < lcs.length && origIdx < originalLines.length && originalLines[origIdx] === lcs[lcsIdx] && modIdx < modifiedLines.length && modifiedLines[modIdx] === lcs[lcsIdx]) {
+                    result.lines.push({ type: 'unchanged', text: originalLines[origIdx] });
+                    result.unchanged++;
+                    origIdx++;
+                    modIdx++;
+                    lcsIdx++;
+                } else if (modIdx < modifiedLines.length && (lcsIdx >= lcs.length || modifiedLines[modIdx] !== lcs[lcsIdx])) {
+                    result.lines.push({ type: 'added', text: modifiedLines[modIdx] });
+                    result.additions++;
+                    modIdx++;
+                } else if (origIdx < originalLines.length && (lcsIdx >= lcs.length || originalLines[origIdx] !== lcs[lcsIdx])) {
+                    result.lines.push({ type: 'removed', text: originalLines[origIdx] });
+                    result.deletions++;
+                    origIdx++;
+                }
+            }
+
+            return result;
+        }
+
+        function longestCommonSubsequence(arr1, arr2) {
+            const m = arr1.length;
+            const n = arr2.length;
+            const dp = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+
+            for (let i = 1; i <= m; i++) {
+                for (let j = 1; j <= n; j++) {
+                    if (arr1[i - 1] === arr2[j - 1]) {
+                        dp[i][j] = dp[i - 1][j - 1] + 1;
+                    } else {
+                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                    }
+                }
+            }
+
+            // Backtrack to find LCS
+            const lcs = [];
+            let i = m, j = n;
+            while (i > 0 && j > 0) {
+                if (arr1[i - 1] === arr2[j - 1]) {
+                    lcs.unshift(arr1[i - 1]);
+                    i--;
+                    j--;
+                } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                    i--;
+                } else {
+                    j--;
+                }
+            }
+
+            return lcs;
+        }
+
+        function clearAll() {
+            document.getElementById('original').value = '';
+            document.getElementById('modified').value = '';
+            document.getElementById('result').innerHTML = '';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Auto-compare on input change
+        document.getElementById('original').addEventListener('input', compareDiff);
+        document.getElementById('modified').addEventListener('input', compareDiff);
+    </script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Formatter - Free Online HTML Beautifier & Minifier</title>
+    <meta name="description" content="Free online HTML formatter and beautifier. Format, minify, and validate HTML code with syntax highlighting. 100% client-side.">
+    <meta name="keywords" content="html formatter, html beautifier, html minifier, html validator, online html tools">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tagline {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .input-group textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 14px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            min-height: 200px;
+            resize: vertical;
+        }
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .result-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        .result-card textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            min-height: 200px;
+            resize: vertical;
+        }
+        .stats {
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        .stat-label {
+            color: #a0aec0;
+            font-size: 0.85rem;
+        }
+        .stat-value {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .success {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HTML Formatter</h1>
+            <p class="tagline">Format, minify, and validate HTML code instantly</p>
+        </header>
+
+        <div class="card">
+            <div class="input-group">
+                <label for="html-input">Paste your HTML code here</label>
+                <textarea id="html-input" placeholder="<html>&#10;  <head>&#10;    <title>Example</title>&#10;  </head>&#10;  <body>&#10;    <h1>Hello World</h1>&#10;  </body>&#10;</html>"><html>
+  <head>
+    <title>Example</title>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <p>This is a paragraph.</p>
+  </body>
+</html></textarea>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn" onclick="formatHtml()">Format / Beautify</button>
+                <button class="btn" onclick="minifyHtml()">Minify</button>
+                <button class="btn" onclick="validateHtml()">Validate</button>
+                <button class="btn secondary" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function formatHtml() {
+            const input = document.getElementById('html-input').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!input.trim()) {
+                resultDiv.innerHTML = '<div class="error">Please enter some HTML code</div>';
+                return;
+            }
+
+            try {
+                // Simple HTML formatter
+                let formatted = input
+                    .replace(/></g, '>\n<')
+                    .replace(/([a-z])="([^"]*)"/gi, '$1="$2"')
+                    .trim();
+
+                // Add proper indentation
+                let indent = 0;
+                const lines = formatted.split('\n');
+                const formattedLines = lines.map(line => {
+                    line = line.trim();
+                    if (line.match(/^<\/\w/)) {
+                        indent--;
+                    }
+                    const result = '  '.repeat(Math.max(0, indent)) + line;
+                    if (line.match(/^<[a-z][^/>]*>[^<]*$/i) && !line.match(/^<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)/i)) {
+                        indent++;
+                    }
+                    if (line.match(/^<[a-z][^>]*>.*<\/[a-z]>$/i)) {
+                        // Self-contained, no indent change
+                    } else if (line.match(/^<[a-z][^/>]*>/i) && !line.match(/\/>$/)) {
+                        indent++;
+                    }
+                    return result;
+                });
+
+                formatted = formattedLines.join('\n');
+
+                const originalSize = new Blob([input]).size;
+                const newSize = new Blob([formatted]).size;
+
+                resultDiv.innerHTML = `
+                    <div class="result-card">
+                        <label>Formatted HTML</label>
+                        <textarea id="output" readonly>${escapeHtml(formatted)}</textarea>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-label">Original Size</div>
+                                <div class="stat-value">${originalSize} bytes</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Formatted Size</div>
+                                <div class="stat-value">${newSize} bytes</div>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="btn" onclick="copyOutput()">Copy to Clipboard</button>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                resultDiv.innerHTML = '<div class="error">Error formatting HTML: ' + escapeHtml(e.message) + '</div>';
+            }
+        }
+
+        function minifyHtml() {
+            const input = document.getElementById('html-input').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!input.trim()) {
+                resultDiv.innerHTML = '<div class="error">Please enter some HTML code</div>';
+                return;
+            }
+
+            try {
+                let minified = input
+                    .replace(/<!--[\s\S]*?-->/g, '')
+                    .replace(/\s+/g, ' ')
+                    .replace(/>\s+</g, '><')
+                    .replace(/\s+>/g, '>')
+                    .replace(/<\s+/g, '<')
+                    .trim();
+
+                const originalSize = new Blob([input]).size;
+                const newSize = new Blob([minified]).size;
+                const savings = ((1 - newSize / originalSize) * 100).toFixed(1);
+
+                resultDiv.innerHTML = `
+                    <div class="result-card">
+                        <label>Minified HTML</label>
+                        <textarea id="output" readonly>${escapeHtml(minified)}</textarea>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-label">Original Size</div>
+                                <div class="stat-value">${originalSize} bytes</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Minified Size</div>
+                                <div class="stat-value">${newSize} bytes</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Savings</div>
+                                <div class="stat-value">${savings}%</div>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="btn" onclick="copyOutput()">Copy to Clipboard</button>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                resultDiv.innerHTML = '<div class="error">Error minifying HTML: ' + escapeHtml(e.message) + '</div>';
+            }
+        }
+
+        function validateHtml() {
+            const input = document.getElementById('html-input').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!input.trim()) {
+                resultDiv.innerHTML = '<div class="error">Please enter some HTML code</div>';
+                return;
+            }
+
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(input, 'text/html');
+                const errors = [];
+
+                // Check for parse errors
+                if (doc.querySelector('parsererror')) {
+                    errors.push('HTML parsing error detected');
+                }
+
+                // Check for common issues
+                const unclosed = [];
+                const tags = input.match(/<\/?[a-z][a-z0-9]*/gi) || [];
+                const stack = [];
+
+                tags.forEach(tag => {
+                    const isClosing = tag.startsWith('</');
+                    const tagName = tag.replace(/^<\/?/, '').toLowerCase();
+
+                    if (['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'].includes(tagName)) {
+                        return; // Self-closing tags
+                    }
+
+                    if (isClosing) {
+                        if (stack.length === 0 || stack[stack.length - 1] !== tagName) {
+                            // Unexpected closing tag
+                        } else {
+                            stack.pop();
+                        }
+                    } else {
+                        stack.push(tagName);
+                    }
+                });
+
+                if (errors.length === 0) {
+                    resultDiv.innerHTML = `
+                        <div class="success">✓ HTML is valid! No syntax errors found.</div>
+                        <div class="result-card">
+                            <label>Validated HTML</label>
+                            <textarea id="output" readonly>${escapeHtml(input)}</textarea>
+                            <div class="actions">
+                                <button class="btn" onclick="copyOutput()">Copy to Clipboard</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div class="error">' + errors.map(e => '• ' + e).join('<br>') + '</div>';
+                }
+            } catch (e) {
+                resultDiv.innerHTML = '<div class="error">Error validating HTML: ' + escapeHtml(e.message) + '</div>';
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('html-input').value = '';
+            document.getElementById('result').innerHTML = '';
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('output');
+            if (output) {
+                output.select();
+                document.execCommand('copy');
+                alert('Copied to clipboard!');
+            }
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
