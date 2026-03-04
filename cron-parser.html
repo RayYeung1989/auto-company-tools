@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cron Expression Parser - Free Online Cron Job Scheduler</title>
+    <meta name="description" content="Free online cron expression parser. Understand cron syntax, see next run times, and validate cron expressions. Supports standard 5-field cron.">
+    <meta name="keywords" content="cron, cron expression, cron parser, cron job, cron scheduler, cron syntax">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tagline {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            margin-bottom: 24px;
+        }
+        label {
+            display: block;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        input[type="text"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            color: #fff;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #00d4ff;
+        }
+        .btn {
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        .help-text {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+        .fields {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .field {
+            text-align: center;
+        }
+        .field-label {
+            color: #00d4ff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .field-value {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 12px 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+        .result {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .result-header {
+            color: #00d4ff;
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+        .result-item {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-label {
+            color: #a0aec0;
+        }
+        .result-value {
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            color: #fca5a5;
+            text-align: center;
+        }
+        .next-runs {
+            margin-top: 20px;
+        }
+        .next-run {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        .human-readable {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+        .examples {
+            display: grid;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .example {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .example:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+        }
+        .example-expr {
+            font-family: 'Courier New', monospace;
+            color: #00d4ff;
+        }
+        .example-desc {
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cron Expression Parser</h1>
+            <p class="tagline">Parse and understand cron expressions. See next run times.</p>
+        </header>
+
+        <div class="card">
+            <div class="input-group">
+                <label for="cron">Cron Expression (5 fields)</label>
+                <input type="text" id="cron" placeholder="* * * * *" value="0 9 * * 1">
+            </div>
+            <p class="help-text">Format: minute hour day month weekday (e.g., 0 9 * * 1 = Every Monday at 9:00 AM)</p>
+
+            <div class="fields">
+                <div class="field">
+                    <div class="field-label">MINUTE</div>
+                    <div class="field-value" id="minute">0</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">HOUR</div>
+                    <div class="field-value" id="hour">9</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">DAY</div>
+                    <div class="field-value" id="day">*</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">MONTH</div>
+                    <div class="field-value" id="month">*</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">WEEKDAY</div>
+                    <div class="field-value" id="weekday">1</div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="parse()" style="margin-top: 24px;">Parse Expression</button>
+        </div>
+
+        <div class="card">
+            <div class="result-header">Common Examples</div>
+            <div class="examples">
+                <div class="example" onclick="setExample('* * * * *')">
+                    <span class="example-expr">* * * * *</span>
+                    <span class="example-desc">Every minute</span>
+                </div>
+                <div class="example" onclick="setExample('0 * * * *')">
+                    <span class="example-expr">0 * * * *</span>
+                    <span class="example-desc">Every hour</span>
+                </div>
+                <div class="example" onclick="setExample('0 9 * * *')">
+                    <span class="example-expr">0 9 * * *</span>
+                    <span class="example-desc">Every day at 9:00 AM</span>
+                </div>
+                <div class="example" onclick="setExample('0 9 * * 1-5')">
+                    <span class="example-expr">0 9 * * 1-5</span>
+                    <span class="example-desc">Weekdays at 9:00 AM</span>
+                </div>
+                <div class="example" onclick="setExample('0 0 1 * *')">
+                    <span class="example-expr">0 0 1 * *</span>
+                    <span class="example-desc">First day of every month</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultCard" class="card" style="display: none;">
+            <div class="result-header">Parse Result</div>
+            <div id="result"></div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Built by <a href="index.html">Auto Company</a> - Developer Tools</p>
+    </footer>
+
+    <script>
+        const fieldNames = ['minute', 'hour', 'day', 'month', 'weekday'];
+        const fieldRanges = [
+            { min: 0, max: 59 },
+            { min: 0, max: 23 },
+            { min: 1, max: 31 },
+            { min: 1, max: 12 },
+            { min: 0, max: 7 }
+        ];
+        const fieldLabels = ['Minute', 'Hour', 'Day of Month', 'Month', 'Day of Week'];
+
+        function setExample(expr) {
+            document.getElementById('cron').value = expr;
+            parse();
+        }
+
+        function parseField(value, fieldIndex) {
+            const range = fieldRanges[fieldIndex];
+            const results = new Set();
+
+            if (value === '*') {
+                for (let i = range.min; i <= range.max; i++) {
+                    results.add(i);
+                }
+                return { type: 'every', values: Array.from(results).join(', ') };
+            }
+
+            if (value.includes('/')) {
+                const [base, step] = value.split('/');
+                const stepNum = parseInt(step);
+                let start = base === '*' ? range.min : parseInt(base);
+                for (let i = start; i <= range.max; i += stepNum) {
+                    results.add(i);
+                }
+                return { type: 'step', step: stepNum, values: Array.from(results).join(', ') };
+            }
+
+            if (value.includes('-')) {
+                const [start, end] = value.split('-').map(Number);
+                for (let i = start; i <= end; i++) {
+                    results.add(i);
+                }
+                return { type: 'range', start, end, values: Array.from(results).join(', ') };
+            }
+
+            if (value.includes(',')) {
+                const parts = value.split(',');
+                for (const part of parts) {
+                    if (part.includes('-')) {
+                        const [s, e] = part.split('-').map(Number);
+                        for (let i = s; i <= e; i++) results.add(i);
+                    } else {
+                        results.add(parseInt(part));
+                    }
+                }
+                return { type: 'list', values: Array.from(results).sort((a, b) => a - b).join(', ') };
+            }
+
+            results.add(parseInt(value));
+            return { type: 'exact', value: parseInt(value), values: value };
+        }
+
+        function getHumanReadable(parsed) {
+            const parts = [];
+            const minute = parsed[0];
+            const hour = parsed[1];
+            const day = parsed[2];
+            const month = parsed[3];
+            const weekday = parsed[4];
+
+            // Time
+            if (minute.type === 'every' && hour.type === 'every') {
+                parts.push('Every minute');
+            } else if (minute.type === 'step') {
+                parts.push(`Every ${minute.step} minutes`);
+            } else if (hour.type === 'every') {
+                parts.push(`At minute ${minute.values}`);
+            } else if (minute.values === '0' && hour.type === 'exact') {
+                parts.push(`At ${hour.value}:00`);
+            } else {
+                parts.push(`At ${hour.values}:${minute.values.padStart(2, '0')}`);
+            }
+
+            // Day
+            if (day.type !== 'every') {
+                if (day.type === 'exact') parts.push(`on day ${day.value}`);
+                else if (day.type === 'range') parts.push(`on days ${day.start}-${day.end}`);
+                else parts.push(`on days ${day.values}`);
+            }
+
+            // Month
+            const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June',
+                              'July', 'August', 'September', 'October', 'November', 'December'];
+            if (month.type !== 'every') {
+                if (month.type === 'exact') parts.push(`in ${monthNames[month.value]}`);
+                else parts.push(`in months ${month.values}`);
+            }
+
+            // Weekday
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            if (weekday.type !== 'every') {
+                if (weekday.type === 'exact') {
+                    const d = weekday.value === 0 || weekday.value === 7 ? 0 : weekday.value;
+                    parts.push(`on ${dayNames[d]}`);
+                } else {
+                    parts.push(`on weekdays ${weekday.values}`);
+                }
+            }
+
+            return parts.join(' ') || 'Every minute';
+        }
+
+        function getNextRuns(cronStr) {
+            const [minute, hour, day, month, weekday] = cronStr.split(' ');
+            const runs = [];
+            const now = new Date();
+            const current = new Date(now);
+
+            // Simple next run calculation
+            for (let i = 0; i < 10; i++) {
+                current.setTime(now.getTime() + i * 60000);
+                current.setSeconds(0);
+                current.setMilliseconds(0);
+
+                const m = parseInt(minute);
+                const h = parseInt(hour);
+                const d = parseInt(day);
+                const mo = parseInt(month);
+                const w = parseInt(weekday);
+
+                let match = true;
+
+                if (minute !== '*' && current.getMinutes() !== m) match = false;
+                if (hour !== '*' && current.getHours() !== h) match = false;
+                if (day !== '*' && current.getDate() !== d) match = false;
+                if (month !== '*' && current.getMonth() + 1 !== mo) match = false;
+                if (weekday !== '*' && current.getDay() !== w) match = false;
+
+                if (match && runs.length < 5) {
+                    runs.push(current.toLocaleString());
+                }
+
+                if (runs.length >= 5) break;
+            }
+
+            return runs;
+        }
+
+        function parse() {
+            const cronStr = document.getElementById('cron').value.trim();
+            const parts = cronStr.split(/\s+/);
+
+            if (parts.length !== 5) {
+                document.getElementById('resultCard').style.display = 'block';
+                document.getElementById('result').innerHTML = `
+                    <div class="error">Invalid cron expression. Please use 5 fields: minute hour day month weekday</div>
+                `;
+                return;
+            }
+
+            // Update field displays
+            parts.forEach((part, i) => {
+                document.getElementById(fieldNames[i]).textContent = part;
+            });
+
+            // Parse each field
+            const parsed = parts.map((part, i) => parseField(part, i));
+
+            // Check for errors
+            const hasError = parsed.some((p, i) => {
+                if (!p.values) return true;
+                const values = p.values.split(',').map(Number);
+                return values.some(v => isNaN(v) || v < fieldRanges[i].min || v > fieldRanges[i].max);
+            });
+
+            if (hasError) {
+                document.getElementById('resultCard').style.display = 'block';
+                document.getElementById('result').innerHTML = `
+                    <div class="error">Invalid field values. Please check your cron expression.</div>
+                `;
+                return;
+            }
+
+            // Generate human-readable description
+            const humanReadable = getHumanReadable(parsed);
+
+            // Get next runs
+            let nextRunsHtml = '';
+            try {
+                const nextRuns = getNextRuns(cronStr);
+                if (nextRuns.length > 0) {
+                    nextRunsHtml = `
+                        <div class="next-runs">
+                            <div class="result-header" style="font-size: 1rem;">Next 5 Runs</div>
+                            ${nextRuns.map(r => `<div class="next-run">${r}</div>`).join('')}
+                        </div>
+                    `;
+                }
+            } catch (e) {
+                nextRunsHtml = '';
+            }
+
+            document.getElementById('resultCard').style.display = 'block';
+            document.getElementById('result').innerHTML = `
+                <div class="human-readable">${humanReadable}</div>
+                ${nextRunsHtml}
+            `;
+        }
+
+        // Parse on load
+        parse();
+    </script>
+</body>
+</html>
