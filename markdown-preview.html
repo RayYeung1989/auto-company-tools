@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Preview - Auto Company</title>
+    <meta name="description" content="Free online Markdown preview tool. Write and preview Markdown in real-time with GitHub-flavored markdown support.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #0d1117;
+            min-height: 100vh;
+            color: #c9d1d9;
+        }
+        .header {
+            background: #161b22;
+            border-bottom: 1px solid #30363d;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #58a6ff;
+            text-decoration: none;
+        }
+        .logo span {
+            color: #8b949e;
+            font-weight: 400;
+        }
+        .container {
+            display: flex;
+            height: calc(100vh - 65px);
+        }
+        .editor-panel, .preview-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+        .editor-panel {
+            border-right: 1px solid #30363d;
+        }
+        .panel-header {
+            background: #161b22;
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #8b949e;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn {
+            background: #238636;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #2ea043;
+        }
+        .btn-secondary {
+            background: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+        }
+        .btn-secondary:hover {
+            background: #30363d;
+        }
+        textarea {
+            flex: 1;
+            background: #0d1117;
+            color: #c9d1d9;
+            border: none;
+            padding: 16px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+        textarea::placeholder {
+            color: #484f58;
+        }
+        .preview-content {
+            flex: 1;
+            padding: 24px;
+            overflow: auto;
+            background: #0d1117;
+        }
+        .preview-content h1, .preview-content h2, .preview-content h3,
+        .preview-content h4, .preview-content h5, .preview-content h6 {
+            color: #f0f6fc;
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        .preview-content h1 { font-size: 2em; border-bottom: 1px solid #30363d; padding-bottom: 0.3em; }
+        .preview-content h2 { font-size: 1.5em; border-bottom: 1px solid #30363d; padding-bottom: 0.3em; }
+        .preview-content h3 { font-size: 1.25em; }
+        .preview-content p { margin-bottom: 16px; line-height: 1.6; }
+        .preview-content a { color: #58a6ff; text-decoration: none; }
+        .preview-content a:hover { text-decoration: underline; }
+        .preview-content code {
+            background: #161b22;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 85%;
+        }
+        .preview-content pre {
+            background: #161b22;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+        .preview-content pre code {
+            background: none;
+            padding: 0;
+        }
+        .preview-content blockquote {
+            border-left: 4px solid #30363d;
+            padding-left: 16px;
+            color: #8b949e;
+            margin-bottom: 16px;
+        }
+        .preview-content ul, .preview-content ol {
+            margin-bottom: 16px;
+            padding-left: 2em;
+        }
+        .preview-content li { margin-bottom: 4px; }
+        .preview-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        .preview-content th, .preview-content td {
+            border: 1px solid #30363d;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .preview-content th {
+            background: #161b22;
+        }
+        .preview-content hr {
+            border: none;
+            border-top: 1px solid #30363d;
+            margin: 24px 0;
+        }
+        .preview-content img {
+            max-width: 100%;
+            height: auto;
+        }
+        .preview-content input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        .toolbar {
+            display: flex;
+            gap: 8px;
+        }
+        .toolbar button {
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .toolbar button:hover {
+            background: #21262d;
+            color: #c9d1d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="logo">Auto Company <span>/ Markdown Preview</span></a>
+    </div>
+    <div class="container">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <span>MARKDOWN</span>
+                <div class="toolbar">
+                    <button onclick="insertText('**', '**')">Bold</button>
+                    <button onclick="insertText('*', '*')">Italic</button>
+                    <button onclick="insertText('`', '`')">Code</button>
+                    <button onclick="insertText('[', '](url)')">Link</button>
+                    <button onclick="insertText('## ', '')">H2</button>
+                    <button onclick="clearEditor()">Clear</button>
+                </div>
+            </div>
+            <textarea id="editor" placeholder="# Welcome to Markdown Preview&#10;&#10;Start typing your markdown here...&#10;&#10;## Features&#10;- **Bold** and *italic* text&#10;- Code blocks and inline code&#10;- Tables and lists&#10;- And much more!"># Welcome to Markdown Preview
+
+## Features
+- **Bold** and *italic* text
+- Code blocks and inline `code`
+- Tables and lists
+- Links and images
+
+## Code Example
+```javascript
+function hello() {
+  console.log("Hello, World!");
+}
+```
+
+## Table Example
+| Column 1 | Column 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+
+> This is a blockquote
+
+[Link to GitHub](https://github.com)
+</textarea>
+        </div>
+        <div class="preview-panel">
+            <div class="panel-header">
+                <span>PREVIEW</span>
+                <button class="btn" onclick="downloadHtml()">Download HTML</button>
+            </div>
+            <div class="preview-content" id="preview"></div>
+        </div>
+    </div>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const preview = document.getElementById('preview');
+
+        function simpleMarkdown(text) {
+            let html = text
+                // Escape HTML
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Code blocks (fenced)
+            html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>');
+
+            // Inline code
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // Headers
+            html = html.replace(/^###### (.+)$/gm, '<h6>$1</h6>');
+            html = html.replace(/^##### (.+)$/gm, '<h5>$1</h5>');
+            html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+            // Bold and italic
+            html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            html = html.replace(/___(.+?)___/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+            html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+
+            // Strikethrough
+            html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+
+            // Links
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            // Images
+            html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+
+            // Blockquotes
+            html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+
+            // Horizontal rules
+            html = html.replace(/^---$/gm, '<hr>');
+            html = html.replace(/^\*\*\*$/gm, '<hr>');
+
+            // Unordered lists
+            html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+
+            // Ordered lists
+            html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+
+            // Paragraphs
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = '<p>' + html + '</p>';
+
+            // Clean up empty paragraphs
+            html = html.replace(/<p><\/p>/g, '');
+            html = html.replace(/<p>(<h[1-6]>)/g, '$1');
+            html = html.replace(/(<\/h[1-6]>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<pre>)/g, '$1');
+            html = html.replace(/(<\/pre>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<ul>)/g, '$1');
+            html = html.replace(/(<\/ul>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<blockquote>)/g, '$1');
+            html = html.replace(/(<\/blockquote>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<hr>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<table>)/g, '$1');
+            html = html.replace(/(<\/table>)<\/p>/g, '$1');
+
+            return html;
+        }
+
+        function updatePreview() {
+            const markdown = editor.value;
+            preview.innerHTML = simpleMarkdown(markdown);
+        }
+
+        function insertText(before, after) {
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const text = editor.value;
+            const selected = text.substring(start, end);
+            editor.value = text.substring(0, start) + before + selected + after + text.substring(end);
+            editor.focus();
+            editor.selectionStart = start + before.length;
+            editor.selectionEnd = start + before.length + selected.length;
+            updatePreview();
+        }
+
+        function clearEditor() {
+            editor.value = '';
+            updatePreview();
+            editor.focus();
+        }
+
+        function downloadHtml() {
+            const markdown = editor.value;
+            const html = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown Export</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+        h1, h2, h3, h4, h5, h6 { margin-top: 24px; margin-bottom: 16px; font-weight: 600; }
+        h1 { font-size: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+        code { background: #f4f4f4; padding: 0.2em 0.4em; border-radius: 3px; }
+        pre { background: #f4f4f4; padding: 16px; border-radius: 6px; overflow-x: auto; }
+        pre code { background: none; padding: 0; }
+        blockquote { border-left: 4px solid #ddd; padding-left: 16px; color: #666; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+    </style>
+</head>
+<body>
+${simpleMarkdown(markdown)}
+</body>
+</html>`;
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'markdown-export.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        editor.addEventListener('input', updatePreview);
+        updatePreview();
+    </script>
+</body>
+</html>

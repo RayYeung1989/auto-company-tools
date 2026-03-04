@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Formatter - Free Online XML Beautifier</title>
+    <meta name="description" content="Free online XML formatter and beautifier. Format, minify, validate XML with syntax highlighting. 100% client-side.">
+    <meta name="keywords" content="xml formatter, xml beautifier, xml prettify, xml format, xml validator, xml minify">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tagline {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .options {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        label {
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+        }
+        select option {
+            background: #1a1a2e;
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: none;
+        }
+        textarea {
+            width: 100%;
+            min-height: 250px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            color: #e2e8f0;
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+        }
+        textarea:focus {
+            border-color: #00d4ff;
+        }
+        .output-label {
+            color: #00d4ff;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .stats {
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .error {
+            color: #ef4444;
+            padding: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .success {
+            color: #22c55e;
+            padding: 12px;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+        }
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>XML Formatter</h1>
+            <p class="tagline">Format, beautify, and validate XML instantly. 100% client-side.</p>
+        </header>
+
+        <div class="card">
+            <div class="options">
+                <div class="option-group">
+                    <label for="indent">Indent:</label>
+                    <select id="indent">
+                        <option value="2">2 spaces</option>
+                        <option value="4">4 spaces</option>
+                        <option value="tab">Tab</option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn" onclick="format()">Format XML</button>
+                <button class="btn btn-secondary" onclick="minify()">Minify</button>
+                <button class="btn btn-secondary" onclick="validate()">Validate</button>
+                <button class="btn btn-secondary" onclick="copy()">Copy</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div class="error" id="error"></div>
+            <div class="success" id="success"></div>
+            <label class="output-label">Input XML</label>
+            <textarea id="input" placeholder="Paste your XML here..."><users><user><name>John</name><age>30</age></user><user><name>Jane</name><age>25</age></user></users></textarea>
+        </div>
+
+        <div class="card">
+            <label class="output-label">Formatted Output</label>
+            <textarea id="output" placeholder="Formatted XML will appear here..."></textarea>
+            <div class="stats">
+                <div class="stat">
+                    <span>Lines:</span>
+                    <span id="lineCount">0</span>
+                </div>
+                <div class="stat">
+                    <span>Characters:</span>
+                    <span id="charCount">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Built by <a href="index.html">Auto Company</a> - Developer Tools</p>
+    </footer>
+
+    <script>
+        function getIndent() {
+            const indentType = document.getElementById('indent').value;
+            if (indentType === 'tab') return '\t';
+            return ' '.repeat(parseInt(indentType));
+        }
+
+        function format() {
+            const inputEl = document.getElementById('input');
+            const errorEl = document.getElementById('error');
+            const successEl = document.getElementById('success');
+            const indent = getIndent();
+
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+
+            try {
+                let xml = inputEl.value.trim();
+
+                if (!xml) {
+                    document.getElementById('output').value = '';
+                    updateStats();
+                    return;
+                }
+
+                // Parse to validate
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(xml, 'application/xml');
+                const parseError = doc.querySelector('parsererror');
+
+                if (parseError) {
+                    throw new Error('Invalid XML: ' + parseError.textContent);
+                }
+
+                // Format manually
+                let formatted = '';
+                let level = 0;
+                const tokens = xml.replace(/>\s*</g, '><').split(/(<[^>]+>)/).filter(t => t);
+
+                tokens.forEach(token => {
+                    token = token.trim();
+                    if (!token) return;
+
+                    if (token.match(/^<\/\w/)) {
+                        // Closing tag
+                        level = Math.max(0, level - 1);
+                        formatted += indent.repeat(level) + token + '\n';
+                    } else if (token.match(/^<\w/)) {
+                        // Opening tag
+                        if (formatted && !formatted.endsWith('\n')) {
+                            formatted += '\n';
+                        }
+                        formatted += indent.repeat(level) + token;
+                        if (!token.includes('/>')) {
+                            level++;
+                        }
+                    } else if (token.trim()) {
+                        // Text content
+                        formatted += token.trim();
+                    }
+                });
+
+                // Clean up extra newlines
+                formatted = formatted.replace(/\n\s*\n/g, '\n').trim();
+
+                document.getElementById('output').value = formatted;
+                updateStats();
+
+            } catch (e) {
+                errorEl.textContent = e.message;
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function minify() {
+            let xml = document.getElementById('input').value;
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('success').style.display = 'none';
+
+            // Remove extra whitespace
+            xml = xml.replace(/>\s+</g, '><');
+            xml = xml.replace(/\s+/g, ' ');
+            xml = xml.trim();
+
+            // Validate
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(xml, 'application/xml');
+            const parseError = doc.querySelector('parsererror');
+
+            if (parseError) {
+                document.getElementById('error').textContent = 'Invalid XML';
+                document.getElementById('error').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('output').value = xml;
+            updateStats();
+        }
+
+        function validate() {
+            const xml = document.getElementById('input').value;
+            const errorEl = document.getElementById('error');
+            const successEl = document.getElementById('success');
+
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+
+            if (!xml.trim()) {
+                errorEl.textContent = 'Please enter XML to validate';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(xml, 'application/xml');
+            const parseError = doc.querySelector('parsererror');
+
+            if (parseError) {
+                errorEl.textContent = 'Invalid XML: ' + parseError.textContent.split('\n')[0];
+                errorEl.style.display = 'block';
+            } else {
+                successEl.textContent = 'Valid XML!';
+                successEl.style.display = 'block';
+            }
+        }
+
+        function copy() {
+            const output = document.getElementById('output');
+            output.select();
+            document.execCommand('copy');
+        }
+
+        function clearAll() {
+            document.getElementById('input').value = '';
+            document.getElementById('output').value = '';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('success').style.display = 'none';
+            updateStats();
+        }
+
+        function updateStats() {
+            const text = document.getElementById('output').value;
+            const lines = text.split('\n').filter(l => l.trim()).length;
+
+            document.getElementById('lineCount').textContent = lines;
+            document.getElementById('charCount').textContent = text.length;
+        }
+    </script>
+</body>
+</html>
