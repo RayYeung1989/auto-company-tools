@@ -166,22 +166,37 @@
             margin-bottom: 20px;
             font-size: 1.05rem;
         }
+        .sponsor-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
         .sponsor-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             background: linear-gradient(90deg, #7c3aed, #00d4ff);
             color: #fff;
-            padding: 14px 32px;
+            padding: 14px 24px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
         .sponsor-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+        }
+        .sponsor-btn.github {
+            background: linear-gradient(90deg, #333, #555);
+        }
+        .sponsor-btn.paypal {
+            background: linear-gradient(90deg, #003087, #005597);
+        }
+        .sponsor-btn.kofi {
+            background: linear-gradient(90deg, #ff5722, #ff7844);
         }
         footer {
             text-align: center;
@@ -207,10 +222,20 @@
         <div class="sponsor-section">
             <h2>Support Our Work</h2>
             <p>Help us build more AI-powered developer tools. Your support keeps everything free and open source.</p>
-            <a href="https://github.com/sponsors/RayYeung1989" class="sponsor-btn" target="_blank">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                Sponsor on GitHub
-            </a>
+            <div class="sponsor-buttons">
+                <a href="https://github.com/sponsors/RayYeung1989" class="sponsor-btn github" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub Sponsors
+                </a>
+                <a href="https://paypal.me/rayyeung1989" class="sponsor-btn paypal" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/></svg>
+                    PayPal
+                </a>
+                <a href="https://ko-fi.com/rayyeung1989" class="sponsor-btn kofi" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.881 8.948c-.773-1.962-2.341-3.487-5.304-3.487-3.35 0-5.27 2.149-5.27 5.113 0 3.721 2.416 5.531 5.625 5.531 1.554 0 2.793-.278 3.969-.861l.439 1.978c-.959.49-2.176.784-3.535.784-4.115 0-6.613-2.277-6.613-6.216 0-3.582 2.399-6.117 6.069-6.117 2.977 0 4.769 1.583 4.769 4.245 0 2.047-1.188 3.483-3.198 3.483-1.002 0-1.789-.477-2.045-1.274l-1.664.706c.375 1.19 1.395 2.676 3.891 2.676 2.223 0 4.037-1.239 4.037-3.933 0-2.048-1.176-3.582-3.352-3.582h-.178zm-6.737 6.367c-1.375 0-2.223-.893-2.223-2.223 0-1.375.848-2.223 2.223-2.223 1.375 0 2.223.848 2.223 2.223 0 1.33-.848 2.223-2.223 2.223z"/></svg>
+                    Ko-fi
+                </a>
+            </div>
         </div>
 
         <h2 class="section-title">GitHub Actions Tools</h2>
