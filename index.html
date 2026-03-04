@@ -75,7 +75,29 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-        .tag {
+        .ai-badge {
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+        .tag.ai-powered {
+            background: rgba(0, 212, 255, 0.25);
+            color: #00d4ff;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+        }
+        .tool-card.ai-featured {
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(124, 58, 237, 0.08));
+        }
+        .tool-card.ai-featured:hover {
+            border-color: #00d4ff;
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.25);
+        }
             background: rgba(124, 58, 237, 0.2);
             color: #a78bfa;
             padding: 4px 12px;
@@ -141,6 +163,26 @@
 
         <h2 class="section-title">GitHub Actions Tools</h2>
         <div class="tools-grid">
+            <a href="https://github.com/RayYeung1989/ai-code-reviewer" class="tool-card ai-featured" target="_blank">
+                <h3>AI Code Reviewer <span class="ai-badge">🤖 AI</span></h3>
+                <p>AI-powered code review using GPT-4. Get intelligent feedback on PRs with security analysis, bug detection, and improvement suggestions.</p>
+                <div class="tags">
+                    <span class="tag ai-powered">🤖 AI-Powered</span>
+                    <span class="tag">github-actions</span>
+                    <span class="tag">code-review</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/RayYeung1989/good-first-issue-labeler" class="tool-card" target="_blank">
+                <h3>Good First Issue Labeler</h3>
+                <p>Automatically label issues as "good first issues" based on keywords. Help newcomers find starter tasks.</p>
+                <div class="tags">
+                    <span class="tag">github-actions</span>
+                    <span class="tag">automation</span>
+                    <span class="tag">community</span>
+                </div>
+            </a>
+
             <a href="https://github.com/RayYeung1989/pr-size-labeler" class="tool-card" target="_blank">
                 <h3>PR Size Labeler</h3>
                 <p>Automatically label PRs by size (XS/S/M/L/XL). Helps identify large PRs needing extra review.</p>
